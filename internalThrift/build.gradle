@@ -1,0 +1,33 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "com.linecorp.thrift-gradle-plugin:thrift-gradle-plugin:0.5.0"
+    }
+
+
+}
+
+plugins {
+    id "com.linecorp.thrift-gradle-plugin" version "0.5.0"
+}
+
+compileThrift {
+    thriftExecutable "thrift"
+    sourceDir "$projectDir/src/main/thrift"
+    outputDir "$projectDir/src/main/java"
+
+    nowarn true
+    strict true
+    verbose true
+    recurse true
+    debug true
+    allowNegKeys true
+    allow64bitsConsts true
+    createGenFolder false
+
+    generator 'java', 'private-members'
+}
+
+apply plugin: "com.linecorp.thrift-gradle-plugin"

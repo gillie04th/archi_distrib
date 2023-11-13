@@ -1,4 +1,4 @@
-namespace java com.univAngers.archi_distrib.thrift
+namespace java com.univAngers.archi_distrib
 
 struct LeadTO {
   1: required string firstName,
