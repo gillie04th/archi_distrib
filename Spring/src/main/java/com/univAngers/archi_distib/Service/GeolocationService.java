@@ -1,6 +1,9 @@
 package com.univAngers.archi_distib.Service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.univAngers.archi_distib.DTO.GeographicPointDto;
 import com.univAngers.archi_distib.DTO.VirtualLeadDto;
 import org.springframework.web.client.RestTemplate;
@@ -14,8 +17,7 @@ import java.util.List;
 
 public class GeolocationService {
 
-    private GeographicPointDto requestGeolocationApi(VirtualLeadDto lead){
-
+    private GeographicPointDto requestGeolocationApi(VirtualLeadDto lead) throws JsonProcessingException {
 
         String url = "https://nominatim.openstreetmap.org/search?" +
                 "city=" + lead.getCity() +
@@ -27,17 +29,22 @@ public class GeolocationService {
         RestTemplate restTemplate = new RestTemplate();
         String result = restTemplate.getForObject(url, String.class);
 
-        System.out.println(result);
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode jsonNode = mapper.readTree(result).get(0);
 
-        return new GeographicPointDto(1.0,1.0);
+//        System.out.println(jsonNode.get("lat") + ", " + jsonNode.get("lon"));
+
+        return new GeographicPointDto(jsonNode.get("lat").asDouble(), jsonNode.get("lon").asDouble());
     }
 
-    public static void getGpsCoordinates(VirtualLeadDto lead) {
-
+    public void getGpsCoordinates(VirtualLeadDto lead) throws JsonProcessingException {
+        lead.setGeographicPointTO(requestGeolocationApi(lead));
     }
 
-    public static void getGpsCoordinates(List<VirtualLeadDto> leads) {
-
+    public void getGpsCoordinates(List<VirtualLeadDto> leads) throws JsonProcessingException {
+        for(VirtualLeadDto lead : leads) {
+            lead.setGeographicPointTO(requestGeolocationApi(lead));
+        }
     }
 
 }
