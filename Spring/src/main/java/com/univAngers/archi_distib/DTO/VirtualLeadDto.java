@@ -1,4 +1,4 @@
-package com.univAngers.archi_distib;
+package com.univAngers.archi_distib.DTO;
 
 import java.util.Calendar;
 
@@ -18,9 +18,9 @@ public class VirtualLeadDto {
     private String state;
 
 
-    VirtualLeadDto() {}
+    public VirtualLeadDto() {}
 
-    VirtualLeadDto(String firstName, String lastName, double annualRevenue, String phone, String street, String postalCode, String city, String country, Calendar creationDate, String company, String state) {
+    public VirtualLeadDto(String firstName, String lastName, double annualRevenue, String phone, String street, String postalCode, String city, String country, Calendar creationDate, String company, String state) {
 
         this.firstName = firstName;
         this.lastName = lastName;

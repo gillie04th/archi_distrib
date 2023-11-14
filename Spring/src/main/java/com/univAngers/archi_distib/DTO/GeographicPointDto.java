@@ -1,11 +1,11 @@
-package com.univAngers.archi_distib;
+package com.univAngers.archi_distib.DTO;
 
 public class GeographicPointDto {
 
     private Double latitude;
     private Double longitude;
 
-    GeographicPointDto(Double latitude, Double longitude) {
+    public GeographicPointDto(Double latitude, Double longitude) {
         this.latitude = latitude;
         this.longitude = longitude;
     }
