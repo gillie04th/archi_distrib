@@ -1,6 +1,6 @@
-namespace java InternalCRMService
+namespace java thrift
 
-struct LeadTO {
+struct ModelTO {
   1: required string firstName,
   2: required string lastName,
   3: optional double annualRevenue,
@@ -29,11 +29,8 @@ struct InternalLeadDto {
 
 service InternalCRMService {
   void ping(),
-
-  void addLead(1: LeadTO lead),
-  list<LeadTO> findLeads(1: double lowAnnualRevenue, 2: double highAnnualRevenue, 3: string state),
-  list<LeadTO> findLeadsByDate(1: string startDate, 2: string endDate),
-  void deleteLead(1: LeadTO lead),
-
-  oneway void zip()
+  void addLead(1: ModelTO lead),
+  list<ModelTO> findLeads(1: double lowAnnualRevenue, 2: double highAnnualRevenue, 3: string state),
+  list<ModelTO> findLeadsByDate(1: string startDate, 2: string endDate),
+  void deleteLead(1: ModelTO lead),
 }
