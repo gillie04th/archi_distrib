@@ -7,13 +7,12 @@ import thrift.InternalLeadDto;
 
 public class Server {
 
-    public static InternalCRMService crm;
+    public static InternalCRMServiceHandler handler;
     public static InternalCRMService.Processor processor;
     public static void main(String [] args) {
         try {
-            crm = new InternalCRMService();
-            //TODO regarder cette partie de code fonctionne pas a comparer avec la doc de thrift
-            processor = new InternalCRMService.Processor(crm);
+            handler = new InternalCRMServiceHandler();
+            processor = new InternalCRMService.Processor(handler);
 
 
             Runnable simple = new Runnable() {
