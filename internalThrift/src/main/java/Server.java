@@ -3,7 +3,6 @@ import org.apache.thrift.server.TSimpleServer;
 import org.apache.thrift.transport.TServerSocket;
 import org.apache.thrift.transport.TServerTransport;
 import thrift.InternalCRMService;
-import thrift.InternalLeadDto;
 
 public class Server {
 
