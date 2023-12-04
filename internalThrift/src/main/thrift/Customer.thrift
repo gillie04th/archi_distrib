@@ -9,7 +9,7 @@ struct LeadTO {
   6: required string postalCode,
   7: required string city,
   8: required string country,
-  9: required i64 creationDate,
+  9: required string creationDate,
   10: required string company,
   11: required string state
 }

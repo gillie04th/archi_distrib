@@ -6,6 +6,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.univAngers.archi_distib.DTO.GeographicPointDto;
 import com.univAngers.archi_distib.DTO.VirtualLeadDto;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.ResponseEntity;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.HttpURLConnection;
@@ -20,21 +23,27 @@ public class GeolocationService {
     private GeographicPointDto requestGeolocationApi(VirtualLeadDto lead) throws JsonProcessingException {
 
         String url = "https://nominatim.openstreetmap.org/search?" +
-                "city=" + lead.getCity() +
+                "&format=json&limit=1&city=" + lead.getCity() +
                 "&country=" + lead.getCountry() +
                 "&postalcode=" + lead.getPostalCode() +
-                "&street=" + lead.getStreet() +
-                "&format=json&limit=1";
+                "&street=" + lead.getStreet();
+
+        url = url.replace(" ", "+");
 
         RestTemplate restTemplate = new RestTemplate();
-        String result = restTemplate.getForObject(url, String.class);
+        ResponseEntity response = restTemplate.getForEntity(url, String.class);
 
         ObjectMapper mapper = new ObjectMapper();
-        JsonNode jsonNode = mapper.readTree(result).get(0);
+        JsonNode jsonNode = mapper.readTree(response.getBody().toString()).get(0) ;
 
 //        System.out.println(jsonNode.get("lat") + ", " + jsonNode.get("lon"));
-
-        return new GeographicPointDto(jsonNode.get("lat").asDouble(), jsonNode.get("lon").asDouble());
+        System.out.println(response.getBody());
+        System.out.println(url);
+        if(jsonNode != null) {
+            return new GeographicPointDto(jsonNode.get("lat").asDouble(), jsonNode.get("lon").asDouble());
+        } else {
+            return null;
+        }
     }
 
     public void getGpsCoordinates(VirtualLeadDto lead) throws JsonProcessingException {

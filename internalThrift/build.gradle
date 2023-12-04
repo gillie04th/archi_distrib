@@ -15,8 +15,8 @@ plugins {
 
 compileThrift {
     thriftExecutable "thrift"
-    sourceDir "$projectDir/src/main/thrift"
-    outputDir "$projectDir/src/main/java"
+    sourceDir "src/main/thrift"
+    outputDir "/tmp/output/"
 
     nowarn true
     strict true

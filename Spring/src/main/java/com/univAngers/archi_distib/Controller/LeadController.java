@@ -3,6 +3,7 @@ package com.univAngers.archi_distib.Controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.univAngers.archi_distib.DTO.VirtualLeadDto;
 import com.univAngers.archi_distib.Service.GeolocationService;
+import com.univAngers.archi_distib.Service.SalesforceService;
 import com.univAngers.archi_distib.Service.VirtualCrmService;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,13 +21,14 @@ import java.util.List;
 public class LeadController implements VirtualCrmService {
 
     GeolocationService locationService = new GeolocationService();
+    SalesforceService salesforceService = new SalesforceService();
 
     @GetMapping("/all/{lowAnnualRevenue}/{highAnnualRevenue}")
     @Override
     public List<VirtualLeadDto> findLeads(Double lowAnnualRevenue, Double highAnnualRevenue) {
         List<VirtualLeadDto> leads = new ArrayList<VirtualLeadDto>();
-        leads.add(new VirtualLeadDto("Machin","TRUC",200000.43,"06666666","4 boulevard de Lavoisier","49000","Angers","France",Calendar.getInstance(),"UA","France"));
-        leads.add(new VirtualLeadDto("Machin","BIDULE",200000.43,"06666666","4 boulevard de Lavoisier","49000","Angers","France",Calendar.getInstance(),"UA","France"));
+
+        leads.addAll(salesforceService.findLeads(500000000, 1000000000));
         try {
             locationService.getGpsCoordinates(leads);
         } catch (JsonProcessingException e) {
