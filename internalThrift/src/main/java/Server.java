@@ -13,7 +13,6 @@ public class Server {
             handler = new InternalCRMServiceHandler();
             processor = new InternalCRMService.Processor(handler);
 
-
             Runnable simple = new Runnable() {
                 public void run() {
                     simple(processor);

@@ -4,6 +4,9 @@ import org.apache.thrift.protocol.TProtocol;
 import org.apache.thrift.transport.TSocket;
 import org.apache.thrift.transport.TTransport;
 import thrift.InternalCRMService;
+import thrift.InternalLeadDto;
+
+import java.util.List;
 
 public class Client {
    public static void main(String[] args) {
@@ -24,7 +27,7 @@ public class Client {
         }
 
         private static void perform(InternalCRMService.Client client) throws TException {
-            client.ping();
-            System.out.println("ping()");
+            List<?> leads = client.findLeads(2000000,6000000,"ANJ");
+            leads.stream().forEach(lead -> System.out.println(lead.toString() + "\n"));
    }
 }

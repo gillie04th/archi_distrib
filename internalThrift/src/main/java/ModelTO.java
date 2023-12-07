@@ -1,3 +1,5 @@
+import thrift.InternalLeadDto;
+
 public class ModelTO {
     private String firstName;
     private String lastName;
@@ -107,5 +109,10 @@ public class ModelTO {
     public ModelTO setState(String state) {
         this.state = state;
         return this;
+    }
+
+    public InternalLeadDto convertToVirtualLeadDTO() {
+        InternalLeadDto internalLeadDto = new InternalLeadDto(firstName + " " + lastName, phoneNumber, address, zipCode, city, country, creationDate, companyName, state);
+        return internalLeadDto;
     }
 }
