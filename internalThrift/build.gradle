@@ -25,7 +25,7 @@ dependencies {
 
 
 compileThrift {
-    sourceDir "$projectDir/src/main/"
+    sourceDir "$projectDir/src/main/thrift"
     outputDir = file('/tmp/output')
 
     nowarn true
@@ -47,7 +47,7 @@ task copyThrift(type:Copy) {
 }
 
 task suppTrhfit(type:Delete) {
-    delete '/tmp/output'
+    delete '/tmp/output/'
 }
 
 apply plugin: "com.linecorp.thrift-gradle-plugin"
@@ -55,4 +55,5 @@ apply plugin: "com.linecorp.thrift-gradle-plugin"
 copyThrift.dependsOn compileThrift
 compileJava.dependsOn copyThrift
 compileJava.dependsOn suppTrhfit
-copyThrift.dependsOn suppTrhfit
+
+

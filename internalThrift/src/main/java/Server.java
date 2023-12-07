@@ -3,7 +3,6 @@ import org.apache.thrift.server.TSimpleServer;
 import org.apache.thrift.transport.TServerSocket;
 import org.apache.thrift.transport.TServerTransport;
 import thrift.InternalCRMService;
-import thrift.InternalLeadDto;
 
 public class Server {
 
@@ -13,7 +12,6 @@ public class Server {
         try {
             handler = new InternalCRMServiceHandler();
             processor = new InternalCRMService.Processor(handler);
-
 
             Runnable simple = new Runnable() {
                 public void run() {
