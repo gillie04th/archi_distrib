@@ -37,8 +37,8 @@ public class GeolocationService {
         JsonNode jsonNode = mapper.readTree(response.getBody().toString()).get(0) ;
 
 //        System.out.println(jsonNode.get("lat") + ", " + jsonNode.get("lon"));
-        System.out.println(response.getBody());
-        System.out.println(url);
+//        System.out.println(response.getBody());
+//        System.out.println(url);
         if(jsonNode != null) {
             return new GeographicPointDto(jsonNode.get("lat").asDouble(), jsonNode.get("lon").asDouble());
         } else {

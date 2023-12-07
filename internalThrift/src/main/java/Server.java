@@ -27,10 +27,10 @@ public class Server {
 
     public static void simple(InternalCRMService.Processor processor) {
         try {
-            TServerTransport serverTransport = new TServerSocket(8080);
+            TServerTransport serverTransport = new TServerSocket(8081);
             TServer server = new TSimpleServer(new TServer.Args(serverTransport).processor(processor));
 
-            // Use this for a multithreaded server
+            // for a multithreaded server use :
             // TServer server = new TThreadPoolServer(new TThreadPoolServer.Args(serverTransport).processor(processor));
             System.out.println("Starting the simple server...");
             server.serve();

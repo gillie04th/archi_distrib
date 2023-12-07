@@ -1,6 +1,11 @@
 package com.univAngers.archi_distib.DTO;
 
+import thrift.InternalLeadDto;
+
+import java.time.*;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
+import java.util.Date;
 
 public class VirtualLeadDto {
 
@@ -33,6 +38,26 @@ public class VirtualLeadDto {
         this.creationDate = creationDate;
         this.company = company;
         this.state = state;
+    }
+
+    public VirtualLeadDto(InternalLeadDto lead) {
+        Calendar calendar = Calendar.getInstance();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        LocalDate date = LocalDate.parse(lead.getCreationDate(), formatter);
+        calendar.set(date.getYear(), date.getMonthValue() - 1, date.getDayOfMonth());
+
+
+        this.firstName = lead.getName().split(" ")[0];
+        this.lastName = lead.getName().split(" ")[0];
+        this.annualRevenue = lead.getAnnualRevenue();
+        this.phone = lead.getPhone();
+        this.street = lead.getStreet();
+        this.postalCode = lead.getPostalCode();
+        this.city = lead.getCity();
+        this.country = lead.getCountry();
+        this.creationDate = calendar;
+        this.company = lead.getCompany();
+        this.state = lead.getState();
     }
 
     public String getFirstName() {

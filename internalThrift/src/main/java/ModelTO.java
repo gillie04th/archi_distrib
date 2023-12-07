@@ -106,6 +106,9 @@ public class ModelTO {
         return companyName;
     }
 
+    public String getState() {
+        return state;
+    }
     public ModelTO setState(String state) {
         this.state = state;
         return this;

@@ -7,8 +7,8 @@ import java.util.List;
 
 public interface VirtualCrmService {
 
-    public List<VirtualLeadDto> findLeads(Double lowAnnualRevenue, Double highAnnualRevenue);
+    public List<VirtualLeadDto> findLeads(Double lowAnnualRevenue, Double highAnnualRevenue, String state);
 
-    public VirtualLeadDto findLeadByDate(Calendar startDate, Calendar endDate);
+    public List<VirtualLeadDto> findLeadByDate(Calendar startDate, Calendar endDate);
 
 }

@@ -3,6 +3,7 @@ package com.univAngers.archi_distib.Controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.univAngers.archi_distib.DTO.VirtualLeadDto;
 import com.univAngers.archi_distib.Service.GeolocationService;
+import com.univAngers.archi_distib.Service.InternalLeadService;
 import com.univAngers.archi_distib.Service.SalesforceService;
 import com.univAngers.archi_distib.Service.VirtualCrmService;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -13,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -22,13 +22,17 @@ public class LeadController implements VirtualCrmService {
 
     GeolocationService locationService = new GeolocationService();
     SalesforceService salesforceService = new SalesforceService();
+    InternalLeadService internalLeadService = new InternalLeadService();
 
-    @GetMapping("/all/{lowAnnualRevenue}/{highAnnualRevenue}")
+    @GetMapping("/{lowAnnualRevenue}/{highAnnualRevenue}/{state}")
     @Override
-    public List<VirtualLeadDto> findLeads(Double lowAnnualRevenue, Double highAnnualRevenue) {
+    public List<VirtualLeadDto> findLeads(@PathVariable Double lowAnnualRevenue, @PathVariable Double highAnnualRevenue, @PathVariable String state) {
         List<VirtualLeadDto> leads = new ArrayList<VirtualLeadDto>();
 
-        leads.addAll(salesforceService.findLeads(500000000, 1000000000));
+//        System.out.println(lowAnnualRevenue + " " + highAnnualRevenue + " " + state);
+
+        leads.addAll(salesforceService.findLeads(lowAnnualRevenue, highAnnualRevenue, state));
+        leads.addAll(internalLeadService.findLeads(lowAnnualRevenue, highAnnualRevenue, state));
         try {
             locationService.getGpsCoordinates(leads);
         } catch (JsonProcessingException e) {
@@ -39,13 +43,16 @@ public class LeadController implements VirtualCrmService {
 
     @GetMapping("/{startDate}/{endDate}")
     @Override
-    public VirtualLeadDto findLeadByDate(@PathVariable @DateTimeFormat(pattern = "dd-MM-yyyy") Calendar startDate, @PathVariable @DateTimeFormat(pattern = "dd-MM-yyyy") Calendar endDate) {
-        VirtualLeadDto lead = new VirtualLeadDto("Machin","TRUC",200000.43,"06666666","4 boulevard de Lavoisier","49000","Angers","France",Calendar.getInstance(),"UA","France");
+    public List<VirtualLeadDto> findLeadByDate(@PathVariable @DateTimeFormat(pattern = "dd-MM-yyyy") Calendar startDate, @PathVariable @DateTimeFormat(pattern = "dd-MM-yyyy") Calendar endDate) {
+        List<VirtualLeadDto> leads = new ArrayList<VirtualLeadDto>();
+
+        leads.addAll(salesforceService.findLeadsByDate(startDate, endDate));
+        leads.addAll(internalLeadService.findLeadsByDate(startDate, endDate));
         try {
-            locationService.getGpsCoordinates(lead);
+            locationService.getGpsCoordinates(leads);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
-        return lead;
+        return leads;
     }
 }

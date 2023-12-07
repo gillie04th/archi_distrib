@@ -26,19 +26,20 @@ public class InternalCRMServiceHandler implements InternalCRMService.Iface {
     }
 
     @Override
-        public List<InternalLeadDto> findLeads(double lowAnnualRevenue, double highAnnualRevenue, String state) throws TException {
-            List<ModelTO> models = this.data.stream().filter(
-                    lead -> lead.getAnnualRevenue() >= lowAnnualRevenue &&
-                    lead.getAnnualRevenue() <= highAnnualRevenue
-            ).toList();
+    public List<InternalLeadDto> findLeads(double lowAnnualRevenue, double highAnnualRevenue, String state) throws TException {
+        List<ModelTO> models = this.data.stream().filter(
+                lead -> lead.getAnnualRevenue() >= lowAnnualRevenue &&
+                        lead.getAnnualRevenue() <= highAnnualRevenue &&
+                        lead.getState().equals(state)
+        ).toList();
         return models.stream().map(lead -> lead.convertToVirtualLeadDTO()).toList();
     }
 
     @Override
     public List<InternalLeadDto> findLeadsByDate(String startDate, String endDate) throws TException {
-        List<ModelTO> models =  this.data.stream().filter(
-                lead -> lead.getCreationDate().compareTo(startDate) >= 0  &&
-                lead.getCreationDate().compareTo(endDate) >= 0 ).toList();
+        List<ModelTO> models = this.data.stream().filter(
+                lead -> lead.getCreationDate().compareTo(startDate) >= 0 &&
+                        lead.getCreationDate().compareTo(endDate) >= 0).toList();
         return models.stream().map(lead -> lead.convertToVirtualLeadDTO()).toList();
     }
 
