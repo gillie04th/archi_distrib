@@ -1,3 +1,4 @@
 rootProject.name = 'archi_distib'
 include ':internalThrift'
 include ':Spring'
+include ':CLI'
