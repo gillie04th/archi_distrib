@@ -6,7 +6,11 @@ import org.apache.thrift.protocol.TBinaryProtocol;
 import org.apache.thrift.protocol.TProtocol;
 import org.apache.thrift.transport.TSocket;
 import org.apache.thrift.transport.TTransport;
+import thrift.InternalLeadDto;
 
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAccessor;
 import java.util.Calendar;
 import java.util.List;
 
@@ -33,9 +37,14 @@ public class InternalLeadService {
     public List<VirtualLeadDto> findLeadsByDate(Calendar startDate, Calendar endDate) {
         List<VirtualLeadDto> leads = null;
 
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+        String startDateString = formatter.format(startDate.getTime());
+        String endDateString = formatter.format(endDate.getTime());
+
         openConnection();
         try {
-            leads = client.findLeadsByDate(startDate.toString(), endDate.toString()).stream().map(lead -> new VirtualLeadDto(lead)).toList();
+            List<InternalLeadDto> response = client.findLeadsByDate(startDate.toString(), endDate.toString());
+            leads = client.findLeadsByDate(startDateString, endDateString).stream().map(lead -> new VirtualLeadDto(lead)).toList();
         } catch (TException e) {
             throw new RuntimeException(e);
         }

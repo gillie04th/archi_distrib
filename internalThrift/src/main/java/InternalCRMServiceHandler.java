@@ -2,6 +2,14 @@ import org.apache.thrift.TException;
 import thrift.InternalCRMService;
 import thrift.InternalLeadDto;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 public class InternalCRMServiceHandler implements InternalCRMService.Iface {
@@ -37,9 +45,19 @@ public class InternalCRMServiceHandler implements InternalCRMService.Iface {
 
     @Override
     public List<InternalLeadDto> findLeadsByDate(String startDate, String endDate) throws TException {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+
         List<ModelTO> models = this.data.stream().filter(
-                lead -> lead.getCreationDate().compareTo(startDate) >= 0 &&
-                        lead.getCreationDate().compareTo(endDate) >= 0).toList();
+                lead -> {
+                    Boolean res = false;
+                    try {
+                        res = sdf.parse(lead.getCreationDate()).before(sdf.parse(startDate)) &&
+                                sdf.parse(lead.getCreationDate()).before(sdf.parse(endDate));
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    return res;
+                }).toList();
         return models.stream().map(lead -> lead.convertToVirtualLeadDTO()).toList();
     }
 

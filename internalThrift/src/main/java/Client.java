@@ -6,6 +6,10 @@ import org.apache.thrift.transport.TTransport;
 import thrift.InternalCRMService;
 import thrift.InternalLeadDto;
 
+import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class Client {
@@ -27,7 +31,7 @@ public class Client {
     }
 
     private static void perform(InternalCRMService.Client client) throws TException {
-        List<?> leads = client.findLeads(2000000, 6000000, "ANJ");
+        List<?> leads = client.findLeadsByDate("2022-01-01", "2024-12-31");
         leads.stream().forEach(lead -> System.out.println(lead.toString() + "\n"));
     }
 }
