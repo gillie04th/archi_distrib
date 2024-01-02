@@ -48,7 +48,7 @@ public class VirtualLeadDto {
 
 
         this.firstName = lead.getName().split(" ")[0];
-        this.lastName = lead.getName().split(" ")[0];
+        this.lastName = lead.getName().split(" ")[1];
         this.annualRevenue = lead.getAnnualRevenue();
         this.phone = lead.getPhone();
         this.street = lead.getStreet();
@@ -154,5 +154,22 @@ public class VirtualLeadDto {
 
     public void setState(String state) {
         this.state = state;
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+                firstName + ", " +
+                lastName + ", " +
+                annualRevenue + ", " +
+                phone + ", " +
+                street + ", " +
+                postalCode + ", " +
+                city + ", " +
+                country + ", " +
+                creationDate + ", " +
+                company + ", " +
+                state +
+                "}";
     }
 }

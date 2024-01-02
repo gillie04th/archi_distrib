@@ -43,7 +43,6 @@ public class InternalLeadService {
 
         openConnection();
         try {
-            List<InternalLeadDto> response = client.findLeadsByDate(startDate.toString(), endDate.toString());
             leads = client.findLeadsByDate(startDateString, endDateString).stream().map(lead -> new VirtualLeadDto(lead)).toList();
         } catch (TException e) {
             throw new RuntimeException(e);

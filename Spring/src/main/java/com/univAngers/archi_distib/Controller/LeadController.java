@@ -20,9 +20,15 @@ import java.util.List;
 @RequestMapping("/leads")
 public class LeadController implements VirtualCrmService {
 
-    GeolocationService locationService = new GeolocationService();
-    SalesforceService salesforceService = new SalesforceService();
-    InternalLeadService internalLeadService = new InternalLeadService();
+    GeolocationService locationService;
+    SalesforceService salesforceService;
+    InternalLeadService internalLeadService;
+
+    public LeadController() {
+         locationService = new GeolocationService();
+         salesforceService  = new SalesforceService();
+         internalLeadService = new InternalLeadService();
+    }
 
     @GetMapping("/{lowAnnualRevenue}/{highAnnualRevenue}/{state}")
     @Override

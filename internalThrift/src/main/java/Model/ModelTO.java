@@ -1,3 +1,5 @@
+package Model;
+
 import thrift.InternalLeadDto;
 
 public class ModelTO {
